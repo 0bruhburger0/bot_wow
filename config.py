@@ -1,4 +1,4 @@
-TOKEN = 'NzcyMzU3NzY0MjQ0NTcwMTIy.X55gOA.IXJSt_HEYVCT5OKtdYP0KmBfJAA'
+TOKEN = 'NzcyMzU3NzY0MjQ0NTcwMTIy.X55gOA.LL-WnlywlODa-n78NveeHydX0Hg'
 CLIENT_ID = '772357764244570122'
 
 
@@ -24,3 +24,41 @@ desc_2 = "Выберите фракцию:\n\n\
     3️⃣ - US-Horde\n\
     4️⃣ - US-Alliance\n\
     ❌ - cancel\n"
+
+
+desc_3 = "Меню создание:\n\n\
+    ➕ - Указать роль\n\
+    ✅ - Create\n\
+    ❌ - cancel"
+
+
+desc_4 = "Нужен ключ?\n\n\
+    ✅ - Да\n\
+    ❌ - Нет"
+
+
+desc_5 = "Выберите роль:\n\n\
+    1️⃣ - Tank\n\
+    2️⃣ - Dps\n\
+    3️⃣ - Heal\n\
+    ❌ - cancel\n"
+
+
+desc_6 = "Выберите тип брони:\n\n\
+    1️⃣ - Латы\n\
+    2️⃣ - Кольчуга\n\
+    3️⃣ - Кожа\n\
+    4️⃣ - Ткань\n\
+    5️⃣ - Не указывать\n\
+    ❌ - cancel\n"
+
+
+desc_6_tank = "Выберите тип брони:\n\n\
+    1️⃣ - Латы\n\
+    2️⃣ - Кожа\n\
+    3️⃣ - Не указывать\n\
+    ❌ - cancel\n"
+
+
+
+d = {"➕" : "Указать роль", "✅": "Create", "❌": "cancel"}
