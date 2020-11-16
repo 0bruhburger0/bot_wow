@@ -1,7 +1,7 @@
 import sqlite3
 
 
-conn = sqlite3.connect("data_base.db", check_same_thread=False)
+conn = sqlite3.connect("data_base6.db", check_same_thread=False)
 cursor = conn.cursor()
 
 
@@ -19,7 +19,9 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS executors(
                 executor_name TEXT,
                 wallet_name TEXT DEFAULT 'Не указано',
                 wallet_address TEXT DEFAULT 'Не указано',
-                balance INTEGER DEFAULT 0
+                balance INTEGER DEFAULT 0,
+                score INTEGER DEFAULT 0,
+                cnt_orders INTEGER DEFAULT 0
                 )""")
 
 
@@ -33,12 +35,15 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS orders(
                 key_name TEXT DEFAULT 'Без ключа',
                 roles TEXT,
                 cnt_roles INTEGER DEFAULT 0,
-                link TEXT DEFAULT 'Комментарий не указан',
+                link TEXT DEFAULT 'Ссылка не указана',
                 price INTEGER,
-                executors_id INTEGER,
+                executors_id TEXT,
                 step INTEGER DEFAULT 0,
                 message_order INTEGER,
-                comission FLOAT DEFAULT 0
+                comission INTEGER DEFAULT 0,
+                room INTEGER,
+                comment TEXT,
+                waiting room TEXT
                 )""")
 
 
@@ -114,7 +119,7 @@ def get_executor(primary_id: int): # Достатет данные исполн�
     cursor.execute(
         f"SELECT * FROM executors WHERE id={primary_id}")
     rows = cursor.fetchall()
-    columns = ['id', 'executor_name', 'wallet_name', 'wallet_address', 'balance']
+    columns = ['id', 'executor_name', 'wallet_name', 'wallet_address', 'balance', 'score', 'cnt_orders']
     dict_row = {}
     for row in rows:
         for index, column in enumerate(columns):
@@ -126,8 +131,8 @@ def get_order(customer_id: int): # Достатет данные заказа п
     cursor.execute(
         f"SELECT * FROM orders WHERE customer_id={customer_id} AND step<9")
     rows = cursor.fetchall()
-    columns = ['id', 'customer_id', 'lvl_key', 'cnt_executors', 'cnt_fact_executors', 
-    'fraction', 'key_name', 'roles', 'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission']
+    columns = ['id', 'customer_id', 'lvl_key', 'cnt_executors', 'cnt_fact_executors', 'fraction', 'key_name', 'roles', 
+    'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission', 'room', 'comment', 'waiting room']
     dict_row = {}
     for row in rows:
         for index, column in enumerate(columns):
@@ -139,8 +144,8 @@ def get_order_id(order_id: int): # Достает заказ по id заказ�
     cursor.execute(
         f"SELECT * FROM orders WHERE id={order_id}")
     rows = cursor.fetchall()
-    columns = ['id', 'customer_id', 'lvl_key', 'cnt_executors', 'cnt_fact_executors', 
-    'fraction', 'key_name', 'roles', 'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission']
+    columns = ['id', 'customer_id', 'lvl_key', 'cnt_executors', 'cnt_fact_executors', 'fraction', 'key_name', 'roles', 
+    'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission', 'room', 'comment', 'waiting room']
     dict_row = {}
     for row in rows:
         for index, column in enumerate(columns):
