@@ -9,16 +9,15 @@ bot = commands.Bot(command_prefix='/')
 @bot.command()
 async def role(ctx):
 	if int(ctx.channel.id) == 777395744046186517:
-		try:
-			user_id = int(ctx.message.author.id)
-			roles = {'Below 200': 200, '1000+ Mythic Score': 1000, '1500+ Mythic Score': 1500, '2000+ Mythic Score': 2000,
-			'2500+ Mythic Score': 2500, '3000+ Mythic Score': 3000, '3500+ Mythic Score': 3500}
+		user_id = int(ctx.message.author.id)
+		roles = {'Below 200': 200, '1000+ Mythic Score': 1000, '1500+ Mythic Score': 1500, '2000+ Mythic Score': 2000,
+		'2500+ Mythic Score': 2500, '3000+ Mythic Score': 3000, '3500+ Mythic Score': 3500}
+		# print(ctx.message.author.roles)
+		for role in roles:
 			for i in ctx.message.author.roles:
-				for role in roles:
-					if i == role:
-						update("executors", "score", roles[role], user_id)
-		except:
-			pass
+				print(role, i)
+				if str(i) == str(role):
+					update("executors", "score", roles[role], user_id)
 
 
 @bot.command()
@@ -176,46 +175,145 @@ async def link(ctx, link, *, text=''):
 	if int(ctx.channel.id) != 774270476305563679:
 		order = get_order(int(ctx.message.author.id))
 		if order['step'] == 8:
-			try:
-				channel_orders = bot.get_channel(774270476305563679)
-				update9("link", link, int(ctx.message.author.id))
-				if text != '':
-					update9("comment", text, int(ctx.message.author.id))
-				else:
-					update9("comment", text, int(ctx.message.author.id))
-				order2 = get_order(int(ctx.message.author.id))
-				update9("step", 3, int(ctx.message.author.id))
-				list_roles = system.return_roles(int(ctx.message.author.id))
-				embedVar = discord.Embed(title=f"Создание заказа №{order2['id']}:", description='Заказ создан в комнате #заказы', color=000000)
-				embedVar.add_field(name="Ключ:", value=order2['lvl_key'], inline=True)
-				embedVar.add_field(name="Цена:", value=str(order2['comission'])+'₽', inline=True)
-				embedVar.add_field(name="Количество людей:", value=order2['cnt_executors'], inline=True)
-				embedVar.add_field(name="Название ключа:", value=order2['key_name'], inline=True)
-				embedVar.add_field(name="Фракция:", value=order2['fraction'], inline=True)
-				embedVar_order = discord.Embed(title="Новый заказ:", description=f"№{order2['id']} - {order2['key_name']}", color=000000)
-				embedVar_order.add_field(name="Количество людей:", value=order2['cnt_executors'], inline=True)
-				embedVar_order.add_field(name="Ключ:", value=order2['lvl_key'], inline=True)
-				embedVar_order.add_field(name="Фракция:", value=order2['fraction'], inline=True)
-				embedVar.add_field(name="Роли:", value=list_roles, inline=True)
-				embedVar_order.add_field(name="Роли:", value=list_roles, inline=False)
-				embedVar.add_field(name="Ссылка:", value=order2['link'], inline=True)
-				embedVar.add_field(name="Комментарий:", value=order2['comment'], inline=True)
-				embedVar.add_field(name="Room:", value='#заказы', inline=True)
-				message = await ctx.send(embed=embedVar)
-				embedVar_order.add_field(name="Комментарий:", value=order2['comment'], inline=True)
-				embedVar_order.add_field(name="Цена:", value=str(order2['price'])+'₽', inline=True)
-				embedVar_order.add_field(name="Действия:", value="✅ - откликнуться", inline=True)
-				msg = await channel_orders.send(f"Заказ №{order2['id']}", embed=embedVar_order)
-				update9("step", 9, int(ctx.message.author.id))
-				await msg.add_reaction('✅')
-			except:
-				await ctx.send('Эта команда не доступна')
+			# try:
+			channel_orders = bot.get_channel(774270476305563679)
+			update9("link", link, int(ctx.message.author.id))
+			if text != '':
+				update9("comment", text, int(ctx.message.author.id))
+			else:
+				update9("comment", text, int(ctx.message.author.id))
+			order2 = get_order(int(ctx.message.author.id))
+			update9("step", 3, int(ctx.message.author.id))
+			list_roles = system.return_roles(int(ctx.message.author.id))
+			embedVar = discord.Embed(title=f"Создание заказа №{order2['id']}:", description='Заказ создан в комнате #заказы', color=000000)
+			embedVar.add_field(name="Ключ:", value=order2['lvl_key'], inline=True)
+			embedVar.add_field(name="Цена:", value=str(order2['comission'])+'₽', inline=True)
+			embedVar.add_field(name="Количество людей:", value=order2['cnt_executors'], inline=True)
+			embedVar.add_field(name="Название ключа:", value=order2['key_name'], inline=True)
+			embedVar.add_field(name="Фракция:", value=order2['fraction'], inline=True)
+			embedVar_order = discord.Embed(title="Новый заказ:", description=f"№{order2['id']} - {order2['key_name']}", color=000000)
+			embedVar_order.add_field(name="Количество людей:", value=order2['cnt_executors'], inline=True)
+			embedVar_order.add_field(name="Ключ:", value=order2['lvl_key'], inline=True)
+			embedVar_order.add_field(name="Фракция:", value=order2['fraction'], inline=True)
+			embedVar.add_field(name="Роли:", value=list_roles, inline=True)
+			embedVar_order.add_field(name="Роли:", value=list_roles, inline=False)
+			embedVar.add_field(name="Ссылка:", value=order2['link'], inline=True)
+			embedVar.add_field(name="Комментарий:", value=order2['comment'], inline=True)
+			embedVar.add_field(name="Room:", value='#заказы', inline=True)
+			message = await ctx.send(embed=embedVar)
+			embedVar_order.add_field(name="Комментарий:", value=order2['comment'], inline=True)
+			embedVar_order.add_field(name="Цена:", value=str(order2['price'])+'₽', inline=True)
+			embedVar_order.add_field(name="Действия:", value="✅ - откликнуться", inline=True)
+			msg = await channel_orders.send(f"Заказ №{order2['id']}", embed=embedVar_order)
+			update9("step", 9, int(ctx.message.author.id))
+			await msg.add_reaction('✅')
+			# except:
+			# 	await ctx.send('Эта команда не доступна')
 		else:
 			await ctx.send('Комментарий можно оставить позже')
 
 
+# @bot.command()
+# async def new_order(ctx, key=None, people=None, *args):
+# 	if int(ctx.channel.id) != 774270476305563679:
+# 		channel_orders = bot.get_channel(774270476305563679)
+# 		cerate_customer(int(ctx.message.author.id), str(ctx.message.author.name))
+# 		user_id = int(ctx.message.author.id)
+# 		not_conf(user_id)
+# 		create_order(user_id, str(key), int(people))
+# 		order = get_order(user_id)
+# 		customer = get_customer(user_id)
+# 		price_dict = {10: 40, 11: 40, 12: 60, 13: 60, 14: 80, 15: 80, 16: 100, 17: 120, 18: 160, 19: 200, 20: 240}
+# 		try:
+# 			list_key = key.split('x')
+# 			keyy = int(list_key[0])
+# 			cnt_keyy = int(list_key[1])
+# 			try:
+# 				price = price_dict[keyy] * cnt_keyy * int(people)
+# 			except:
+# 				price = price_dict[cnt_keyy] * keyy * int(people)
+# 			comission = math.ceil((price * 12 / 100)/10)*10
+# 		except:
+# 			price = price_dict[int(key)] * int(people)
+# 			comission = math.ceil((price * 12 / 100)/10)*10
+# 		update9("price", price, user_id)
+# 		update9("comission", price+comission, user_id)
+# 		credit = customer['credit'] + (price+comission)
+# 		update("customers", "credit", credit, user_id)
+
+# 		if key != None and people != None:
+# 			update9("lvl_key", str(key), user_id)
+# 			update9("cnt_executors", int(people), user_id)
+# 			cnt_executors = order['cnt_executors']
+# 			list_roles = []
+# 			link = "Ссылка на персонажа не указана"
+# 			for arg in args:
+# 				if arg[:1] == '@':
+# 					integ = system.return_digits(arg)
+# 					if integ == []:
+# 						list_roles.append(arg[1:])
+# 					elif integ != []:
+# 						for i in range(0, integ[0]):
+# 							cnt_symbols = len(str(i))+1
+# 							list_roles.append(arg[1:-cnt_symbols])
+# 				else:
+# 					link = arg
+# 			print(list_roles)
+# 			if len(list_roles) > 1:
+# 				if (len(list_roles)-1) == int(people):
+# 					update9("step", 8, user_id)
+# 					embedVar = discord.Embed(title="Создание заказа:", description='Заказ создан в комнате #заказы', color=000000)
+# 					embedVar.add_field(name="Ключ:", value=key, inline=True)
+# 					embedVar.add_field(name="Количество людей:", value=people, inline=True)
+# 					embedVar.add_field(name="Фракция:", value=list_roles[0], inline=True)
+# 					embedVar.add_field(name="Роли:", value='\n'.join(list_roles[1:]), inline=False)
+# 					embedVar.add_field(name="Ссылка:", value=link, inline=True)
+# 					embedVar.add_field(name="Цена:", value=str(price+comission)+'₽', inline=True)
+# 					embedVar.add_field(name="Room:", value='#заказы', inline=True)
+# 					message = await ctx.send(embed=embedVar)
+
+# 					embedVar_order = discord.Embed(title="Новый заказ:", description=f"№{order['id']}", color=000000)
+# 					embedVar_order.add_field(name="Ключ:", value=key, inline=True)
+# 					embedVar_order.add_field(name="Количество людей:", value=cnt_executors, inline=True)
+# 					embedVar_order.add_field(name="Фракция:", value=list_roles[0], inline=True)
+# 					embedVar_order.add_field(name="Роли:", value='\n'.join(list_roles[1:]), inline=False)
+# 					# embedVar_order.add_field(name="Ссылка:", value=link, inline=True)
+# 					embedVar_order.add_field(name="Цена:", value=str(price+comission)+'₽', inline=True)
+# 					embedVar_order.add_field(name="Дейсвия:", value="✅ - откликнуться", inline=True)
+# 					msg = await channel_orders.send(f"Заказ №{order['id']}", embed=embedVar_order)
+# 					await msg.add_reaction('✅')
+# 					roles = {}
+# 					for r in list_roles[1:]:
+# 						role = {}
+# 						list_role = r.split('-')
+# 						role['role'] = list_role[0]
+# 						role['armor'] = list_role[1]
+# 						try:
+# 							role['key'] = list_role[2]
+# 						except:
+# 							role['key'] = 'Без ключа'
+# 						roles[str(list_roles[1:].index(r)+1)] = role
+# 					update9("roles", str(roles), user_id)
+# 					update9("step", 9, user_id)
+# 					# print('ok')
+# 					# await wait_room(order['id'])
+# 				else:
+# 					await ctx.send("Число участников не совпадает с количеством ролей")
+# 			else:
+# 				embedVar = discord.Embed(title=f"Создание заказа №{order['id']}:", description=config.desc_2, color=000000)
+# 				embedVar.add_field(name="Ключ:", value=key, inline=True)
+# 				embedVar.add_field(name="Цена:", value=str(price+comission)+'₽', inline=True)
+# 				embedVar.add_field(name="Количество людей:", value=people, inline=True)
+# 				msg = await ctx.send(embed=embedVar)
+# 				for emoji in ('1️⃣', '2️⃣', '3️⃣', '4️⃣', '❌'):
+# 					await msg.add_reaction(emoji)
+# 				update9("step", 1, user_id)
+# 		else:
+# 			await ctx.send("Указаны не все данные.\nПример: /new_order 12 4\n(/new_order [ключ] [количество участников])")
+
+
 @bot.command()
-async def new_order(ctx, key=None, people=None, *args):
+async def new_order(ctx, key=None, people=None, fraction='', role_1='', role_2='', role_3='', role_4='', link='', *, comment='Не указан'):
 	if int(ctx.channel.id) != 774270476305563679:
 		channel_orders = bot.get_channel(774270476305563679)
 		cerate_customer(int(ctx.message.author.id), str(ctx.message.author.name))
@@ -229,7 +327,10 @@ async def new_order(ctx, key=None, people=None, *args):
 			list_key = key.split('x')
 			keyy = int(list_key[0])
 			cnt_keyy = int(list_key[1])
-			price = price_dict[keyy] * cnt_keyy * int(people)
+			try:
+				price = price_dict[keyy] * cnt_keyy * int(people)
+			except:
+				price = price_dict[cnt_keyy] * keyy * int(people)
 			comission = math.ceil((price * 12 / 100)/10)*10
 		except:
 			price = price_dict[int(key)] * int(people)
@@ -244,56 +345,66 @@ async def new_order(ctx, key=None, people=None, *args):
 			update9("cnt_executors", int(people), user_id)
 			cnt_executors = order['cnt_executors']
 			list_roles = []
-			link = "Ссылка на персонажа не указана"
-			for arg in args:
-				if arg[:1] == '@':
-					integ = system.return_digits(arg)
-					if integ == []:
-						list_roles.append(arg[1:])
-					elif integ != []:
-						for i in range(0, integ[0]):
-							cnt_symbols = len(str(i))+1
-							list_roles.append(arg[1:-cnt_symbols])
-				else:
-					link = arg
-
+			print(role_1[1:], role_2[1:], role_3[1:], role_4[1:])
+			# try:
+			for r, e in zip((role_1[1:], role_2[1:], role_3[1:], role_4[1:]), ['1️⃣', '2️⃣', '3️⃣', '4️⃣']):
+				list_roles.append(e+r)
+			# except:
+			# 	await ctx.send("Некорректные данные")
+			print(list_roles)
+			print(fraction)
 			if len(list_roles) > 1:
-				if (len(list_roles)-1) == int(people):
-					update9("step", 8, user_id)
-					embedVar = discord.Embed(title="Создание заказа:", description='Заказ создан в комнате #заказы', color=000000)
-					embedVar.add_field(name="Ключ:", value=key, inline=True)
-					embedVar.add_field(name="Количество людей:", value=people, inline=True)
-					embedVar.add_field(name="Фракция:", value=list_roles[0], inline=True)
-					embedVar.add_field(name="Роли:", value='\n'.join(list_roles[1:]), inline=False)
-					embedVar.add_field(name="Ссылка:", value=link, inline=True)
-					embedVar.add_field(name="Цена:", value=str(price+comission)+'₽', inline=True)
-					embedVar.add_field(name="Room:", value='#заказы', inline=True)
-					message = await ctx.send(embed=embedVar)
+				if (len(list_roles)) == int(people):
+					if link != '':
+						update9("step", 8, user_id)
+						embedVar = discord.Embed(title="Создание заказа:", description='Заказ создан в комнате #заказы', color=000000)
+						embedVar.add_field(name="Ключ:", value=key, inline=True)
+						embedVar.add_field(name="Количество людей:", value=people, inline=True)
+						embedVar.add_field(name="Фракция:", value=fraction[1:], inline=True)
+						embedVar.add_field(name="Роли:", value='\n'.join(list_roles), inline=False)
+						embedVar.add_field(name="Ссылка:", value=link, inline=True)
+						embedVar.add_field(name="Комментарий:", value=comment, inline=True)
+						embedVar.add_field(name="Цена:", value=str(price+comission)+'₽', inline=True)
+						embedVar.add_field(name="Room:", value='#заказы', inline=True)
+						message = await ctx.send(embed=embedVar)
 
-					embedVar_order = discord.Embed(title="Новый заказ:", description=f"№{order['id']}", color=000000)
-					embedVar_order.add_field(name="Ключ:", value=key, inline=True)
-					embedVar_order.add_field(name="Количество людей:", value=cnt_executors, inline=True)
-					embedVar_order.add_field(name="Фракция:", value=list_roles[0], inline=True)
-					embedVar_order.add_field(name="Роли:", value='\n'.join(list_roles[1:]), inline=False)
-					# embedVar_order.add_field(name="Ссылка:", value=link, inline=True)
-					embedVar_order.add_field(name="Цена:", value=str(price+comission)+'₽', inline=True)
-					embedVar_order.add_field(name="Дейсвия:", value="✅ - откликнуться", inline=True)
-					msg = await channel_orders.send(f"Заказ №{order['id']}", embed=embedVar_order)
-					await msg.add_reaction('✅')
-					await wait_room(order['id'])
-					roles = {}
-					for r in list_roles[1:]:
-						role = {}
-						list_role = r.split('-')
-						role['role'] = list_role[0]
-						role['armor'] = list_role[1]
-						try:
-							role['key'] = list_role[2]
-						except:
-							role['key'] = 'Без ключа'
-						roles[str(list_roles[1:].index(r)+1)] = role
-					update9("roles", str(roles), user_id)
-					update9("step", 9, user_id)
+						embedVar_order = discord.Embed(title="Новый заказ:", description=f"№{order['id']}", color=000000)
+						embedVar_order.add_field(name="Ключ:", value=key, inline=True)
+						embedVar_order.add_field(name="Количество людей:", value=cnt_executors, inline=True)
+						embedVar_order.add_field(name="Фракция:", value=fraction[1:], inline=True)
+						embedVar_order.add_field(name="Роли:", value='\n'.join(list_roles), inline=False)
+						# embedVar_order.add_field(name="Ссылка:", value=link, inline=True)
+						embedVar_order.add_field(name="Цена:", value=str(price+comission)+'₽', inline=True)
+						embedVar_order.add_field(name="Комментарий:", value=comment, inline=True)
+						embedVar_order.add_field(name="Дейсвия:", value="✅ - откликнуться", inline=True)
+						msg = await channel_orders.send(f"Заказ №{order['id']}", embed=embedVar_order)
+						await msg.add_reaction('✅')
+						roles = {}
+						for r in list_roles:
+							role = {}
+							list_role = r.split('-')
+							role['role'] = list_role[0]
+							role['armor'] = list_role[1]
+							try:
+								role['key'] = list_role[2]
+								update9("key_name", str(list_role[2]), user_id)
+							except:
+								role['key'] = 'Без ключа'
+							roles[str(list_roles.index(r)+1)] = role
+						update9("roles", str(roles), user_id)
+						print('ok1')
+						update9("fraction", str(fraction), user_id)
+						print('ok2')
+						update9("comment", str(comment), user_id)
+						print('ok3')
+						update9("link", str(link), user_id)
+						print('ok4')
+						update9("step", 9, user_id)
+						print('ok15')
+						# print('ok')
+						# await wait_room(order['id'])
+					else:
+						await ctx.send("Ты не указал ссылку на персонажа")
 				else:
 					await ctx.send("Число участников не совпадает с количеством ролей")
 			else:
@@ -321,8 +432,9 @@ async def on_raw_reaction_add(payload):
 			step = step_order['step']
 		except:
 			step = 9
+		# print(step)
 		member = bot.get_user(user_id)
-		if emoji in ('1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '#️⃣', '*️⃣') and step == 2:
+		if emoji in ('☑️', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '#️⃣', '*️⃣') and step == 2:
 			update9("step", 5, user_id)
 			names = config.keyses
 
@@ -401,7 +513,7 @@ async def on_raw_reaction_add(payload):
 			embedVar.add_field(name="Роли:", value=list_roles, inline=True)
 			message = await member.send(embed=embedVar)
 			if order['key_name'] == 'Без ключа':
-				for emoji in ('1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '#️⃣', '*️⃣'):
+				for emoji in ('☑️', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟', '#️⃣', '*️⃣', '❌'):
 					await message.add_reaction(emoji)
 			else:
 				roles = eval(order['roles'])
@@ -593,31 +705,33 @@ async def on_raw_reaction_add(payload):
 						embedVar.add_field(name="Количество людей:", value=order['cnt_executors'], inline=True)
 						embedVar.add_field(name="Название ключа:", value=order['key_name'], inline=True)
 						embedVar.add_field(name="Фракция", value=order['fraction'], inline=True)
-						list_roles = system.return_roles(user_id)
+						print(int(order['id']))
+						list_roles = system.return_roles(int(order['id']))
 						embedVar.add_field(name="Роли:", value=list_roles, inline=True)
 						embedVar.add_field(name="Комментарий:", value=order['comment'], inline=True)
 						embedVar.add_field(name="Цена:", value=str(int(order['price'])/int(order['cnt_executors']))+'₽', inline=True)
 						embedVar.add_field(name="Подвердить заказ:", value=config.desc_9, inline=True)
 						roles = eval(order['roles'])
+						print(len(roles))
 						if '1' not in roles:
 							message = await member.send(f"Заказ №{order_id}\nПока нет участника с ключем, доступна только роль с ключем.", embed=embedVar)
 						else:
 							message = await member.send(f"Заказ №{order_id}", embed=embedVar)
-						if '1' not in roles:
-							if len(roles) == 1:
-								for emoji in ('1️⃣'):
-									await message.add_reaction(emoji)
-							elif len(roles) == 2:
-								for emoji in ('1️⃣', '2️⃣'):
-									await message.add_reaction(emoji)
-							elif len(roles) == 3:
-								for emoji in ('1️⃣', '2️⃣', '3️⃣'):
-									await message.add_reaction(emoji)
-							elif len(roles) == 4:
-								for emoji in ('1️⃣', '2️⃣', '3️⃣', '4️⃣'):
-									await message.add_reaction(emoji)
-						else:
-							await message.add_reaction('1️⃣')
+						# if '1' in roles:
+						if len(roles) == 1:
+							for emoji in ('1️⃣'):
+								await message.add_reaction(emoji)
+						elif len(roles) == 2:
+							for emoji in ('1️⃣', '2️⃣', '👥'):
+								await message.add_reaction(emoji)
+						elif len(roles) == 3:
+							for emoji in ('1️⃣', '2️⃣', '3️⃣', '👥'):
+								await message.add_reaction(emoji)
+						elif len(roles) == 4:
+							for emoji in ('1️⃣', '2️⃣', '3️⃣', '4️⃣', '👥'):
+								await message.add_reaction(emoji)
+						# else:
+						# 	await message.add_reaction('1️⃣')
 					else:
 						pre_message = await channel_orders.fetch_message(payload.message_id)
 						await pre_message.delete()
@@ -626,9 +740,23 @@ async def on_raw_reaction_add(payload):
 			else:
 				pre_message1 = await member.fetch_message(payload.message_id)
 				integ = system.return_digits(pre_message1.content)
-				order_id = integ[1]
+				print(integ) ####### тут ошибка
+				if len(integ) == 2:
+					order_id = integ[1]
+				else:
+					order_id = integ[0]
+				print(order_id)
 				order = get_order_id(order_id)
 				customer = bot.get_user(order['customer_id'])
+				if 'группой' in pre_message1.content:
+					update8('group_reg', user_id, order_id)
+					if order['group_reg'] != None:
+						group_reg = eval(order['group_reg'])
+						group_reg.append(user_id)
+					else:
+						group_reg = []
+						group_reg.append(user_id)
+					update8('group_reg', str(group_reg), order_id)
 				if order['executors_id'] != None:
 					list_executors = eval(order['executors_id'])
 					list_executors.append(user_id)
@@ -637,69 +765,50 @@ async def on_raw_reaction_add(payload):
 					list_executors.append(user_id)
 				update8('executors_id', str(list_executors), order_id)
 				roles = eval(order['roles'])
-				del roles[str(integ[0])]
+				if len(integ) == 2:
+					del roles[str(integ[0])]
+				else:
+					pass
 				update8('roles', str(roles), order_id)
 				channel2 = bot.get_channel(776341478539657267)
-				# room = await channel2.create_text_channel(f'Комната {order_id}')
-				# update8("room", room.id, order_id)
-				# room_info = bot.get_channel(room.id)
 				order2 = get_order_id(order_id)
-				# invitelinknew = await room_info.create_invite(max_uses=1)
-				# embedVar = discord.Embed(title=f"Ты зарегистрирован в заказ №{order_id}", description=str(invitelinknew), color=000000)
 				embedVar = discord.Embed(title=f"Ты зарегистрирован в заказ №{order_id}", description='Через 3 минуты закончится сбор команды. Мы тебя уведомим.', color=000000)
-				# embedVar.add_field(name="Ссылка на персонажа:", value=order2['link'], inline=True)
-				# await customer.send(f"В заказ №{order_id} зарегистрировался {user_name}")
 				await member.send(embed=embedVar)
-				if order2['waiting room'] == None:
+				if order2['waiting_room'] == None:
 					waiting_room = []
 					waiting_room.append(user_id)
 				else:
-					waiting_room = eval(order2['waiting room'])
+					waiting_room = eval(order2['waiting_room'])
 					waiting_room.append(user_id)
-				update8("waiting room", waiting_room, order_id)
+				update8("waiting_room", str(waiting_room), order_id)
+				await wait_room(order_id)
 
-				# execut = get_executor(user_id)
-				# balance = int(order2['price'])/int(order2['cnt_executors']) + execut['balance']
-				# update("executors", "balance", balance, user_id)
-				# try:
-				# 	pre_message = await channel_orders.fetch_message(str(order['message_order']))
-				# 	list_roles = system.return_roles(user_id)
-				# 	embedVar_order = discord.Embed(title="Новый заказ:", description=f"№{order2['id']} - {order2['key_name']}", color=000000)
-				# 	embedVar_order.add_field(name="Количество людей:", value=order2['cnt_executors'], inline=True)
-				# 	embedVar_order.add_field(name="Фракция:", value=order2['fraction'], inline=True)
-				# 	embedVar_order.add_field(name="Роли:", value=list_roles, inline=True)
-				# 	embedVar_order.add_field(name="Комментарий:", value=order2['comment'], inline=True)
-				# 	embedVar_order.add_field(name="Цена:", value=str(order['price'])+'₽', inline=True)
-				# 	await pre_message.edit(embed=embedVar_order)
-				# except:
-				# 	# names_executors = eval(order2[])
-				# 	pre_message = await channel_orders.fetch_message(str(order['message_order']))
-				# 	await pre_message.delete()
-				# 	await channel_orders.send(f"В заказ №{order_id} набрано максимальное количество участников.")
-				# 	await customer.send(f"Заказ №{order_id} собран и начат.")
-
-		elif emoji in ('1️⃣', '2️⃣', '3️⃣', '4️⃣') and step==9:
+		elif emoji in ('1️⃣', '2️⃣', '3️⃣', '4️⃣', '👥') and step==9:
 			print(user_id, payload.message_id)
 			pre_message = await member.fetch_message(payload.message_id)
 			await pre_message.delete()
 			order_id = int(pre_message.content[7:])
 			order = get_order_id(order_id)
 			roles = eval(order['roles'])
+			embedVar = discord.Embed(title="Действия:", description=config.desc_8, color=000000)
 			if emoji == '1️⃣':
 				role = roles['1']
 				item_str = f"{role['role']}-{role['armor']}-{role['key']}"
+				embedVar.add_field(name="Роль:", value=item_str, inline=True)
 			elif emoji == '2️⃣':
 				role = roles['2']
 				item_str = f"{role['role']}-{role['armor']}-{role['key']}"
+				embedVar.add_field(name="Роль:", value=item_str, inline=True)
 			elif emoji == '3️⃣':
 				role = roles['3']
 				item_str = f"{role['role']}-{role['armor']}-{role['key']}"
+				embedVar.add_field(name="Роль:", value=item_str, inline=True)
 			elif emoji == '4️⃣':
 				role = roles['4']
 				item_str = f"{role['role']}-{role['armor']}-{role['key']}"
-			
-			embedVar = discord.Embed(title="Действия:", description=config.desc_8, color=000000)
-			embedVar.add_field(name="Роль:", value=item_str, inline=True)
+				embedVar.add_field(name="Роль:", value=item_str, inline=True)
+			elif emoji == '👥':
+				list_roles = system.return_roles(order['customer_id'])
 
 			if emoji == '1️⃣':
 				message = await member.send(f"Подтверждение на регистрацию роли №1 в заказе №{order_id}", embed=embedVar)
@@ -709,6 +818,8 @@ async def on_raw_reaction_add(payload):
 				message = await member.send(f"Подтверждение на регистрацию роли №3 в заказе №{order_id}", embed=embedVar)
 			elif emoji == '4️⃣':
 				message = await member.send(f"Подтверждение на регистрацию роли №4 в заказе №{order_id}", embed=embedVar)
+			elif emoji == '👥':
+				message = await member.send(f"Подтверждение на регистрацию группой в заказе №{order_id}.\nПодтверждая, ты берешь на себя ответственность за выполнение заказа и выплату отальным исполнителям.", embed=embedVar)
 			await message.add_reaction('✅')
 			await message.add_reaction('❌')
 
@@ -721,10 +832,13 @@ async def on_raw_reaction_add(payload):
 
 
 async def wait_room(order_id):
-	await asyncio.sleep(180)
+	await asyncio.sleep(10)
 	order = get_order_id(int(order_id))
 	member_customer = bot.get_user(int(order['customer_id']))
-	executors_wait = eval(order['waiting_room'])
+	try:
+		executors_wait = eval(order['waiting_room'])
+	except:
+		executors_wait = []
 	if len(executors_wait) == 4:
 		dict_rating = {}
 		for ew in executors_wait:
@@ -734,7 +848,7 @@ async def wait_room(order_id):
 		maximum = sorted(maximum, key=itemgetter(1), reverse=True)
 		executors = list(dict(maximum[:4]).keys())
 		update8('executors_id', str(executors), order_id)
-		member_customer.send(f"Заказ №{order_id} собран и начат.")
+		await member_customer.send(f"Заказ №{order_id} собран и начат.")
 		channel2 = bot.get_channel(776341478539657267)
 		room = await channel2.create_text_channel(f'Комната {order_id}')
 		update8("room", room.id, order_id)
@@ -744,7 +858,7 @@ async def wait_room(order_id):
 			invitelinknew = await room_info.create_invite(max_uses=1)
 			embedVar = discord.Embed(title=f"Ты зарегистрирован в заказ №{order_id}", description=str(invitelinknew), color=000000)
 			embedVar.add_field(name="Ссылка на персонажа:", value=order['link'], inline=True)
-			member_executor.send(enbed=embedVar)
+			await member_executor.send(enbed=embedVar)
 			execut = get_executor(e)
 			balance = int(order['price'])/int(order['cnt_executors']) + execut['balance']
 			update("executors", "balance", balance, e)
@@ -761,31 +875,58 @@ async def wait_room(order_id):
 		maximum = [(d, dict_rating[d]) for d in dict_rating]
 		maximum = sorted(maximum, key=itemgetter(1), reverse=True)
 		executors = list(dict(maximum[:4]).keys())
-		update8('executors_id', str(executors), order_id)
-		member_customer.send(f"Заказ №{order_id} собран и начат.")
-		channel2 = bot.get_channel(776341478539657267)
-		room = await channel2.create_text_channel(f'Комната {order_id}')
-		update8("room", room.id, order_id)
-		room_info = bot.get_channel(room.id)
-		for e in executors:
-			member_executor = bot.get_user(e)
-			invitelinknew = await room_info.create_invite(max_uses=1)
-			embedVar = discord.Embed(title=f"Ты зарегистрирован в заказ №{order_id}", description=str(invitelinknew), color=000000)
+		try:
+			group_reg = eval(order['group_reg'])
+		except:
+			group_reg = []
+		if executors[0] in group_reg:
+			update8('executors_id', executors[0], order_id)
+			await member_customer.send(f"Заказ №{order_id} собран и начат.")
+			channel2 = bot.get_channel(776341478539657267)
+			room = await channel2.create_text_channel(f'Комната {order_id}')
+			update8("room", room.id, order_id)
+			room_info = bot.get_channel(room.id)
+			member_executor = bot.get_user(executors[0])
+			invitelinknew = await room_info.create_invite(max_uses=5)
+			embedVar = discord.Embed(title=f"Ты зарегистрирован в заказ №{order_id}. Ниже ссылка-приглашение, ее можно использовать 5 раз", description=str(invitelinknew), color=000000)
 			embedVar.add_field(name="Ссылка на персонажа:", value=order['link'], inline=True)
-			member_executor.send(enbed=embedVar)
-			execut = get_executor(e)
-			balance = int(order['price'])/int(order['cnt_executors']) + execut['balance']
-			update("executors", "balance", balance, e)
-		channel_orders = bot.get_channel(774270476305563679)
-		pre_message = await channel_orders.fetch_message(str(order['message_order']))
-		list_roles = system.return_roles(user_id)
-		embedVar_order = discord.Embed(title="Добор в заказ:", description=f"№{order['id']} - {order['key_name']}", color=000000)
-		embedVar_order.add_field(name="Количество людей:", value=order['cnt_executors'], inline=True)
-		embedVar_order.add_field(name="Фракция:", value=order['fraction'], inline=True)
-		embedVar_order.add_field(name="Оставшиеся роли:", value=list_roles, inline=True)
-		embedVar_order.add_field(name="Комментарий:", value=order['comment'], inline=True)
-		embedVar_order.add_field(name="Цена:", value=str(order['price'])+'₽', inline=True)
-		await pre_message.edit(embed=embedVar_order)
+			await member_executor.send(embed=embedVar)
+			execut = get_executor(executors[0])
+			balance = int(order['price']) + execut['balance']
+			update("executors", "balance", balance, executors[0])
+			channel_orders = bot.get_channel(774270476305563679)
+			pre_message = await channel_orders.fetch_message(str(order['message_order']))
+			await pre_message.delete()
+			await channel_orders.send(f"В заказ №{order_id} набрано максимальное количество участников.")
+			update8('step', 10, order_id)
+		elif executors[0] not in group_reg and group_reg != []:
+			update8('executors_id', str(executors), order_id)
+			# member_customer.send(f"Заказ №{order_id} собран и начат.")
+			channel2 = bot.get_channel(776341478539657267)
+			room = await channel2.create_text_channel(f'Комната {order_id}')
+			update8("room", room.id, order_id)
+			room_info = bot.get_channel(room.id)
+			for e in executors:
+				member_executor = bot.get_user(e)
+				invitelinknew = await room_info.create_invite(max_uses=1)
+				embedVar = discord.Embed(title=f"Ты зарегистрирован в заказ №{order_id}", description=str(invitelinknew), color=000000)
+				embedVar.add_field(name="Ссылка на персонажа:", value=order['link'], inline=True)
+				await member_executor.send(enbed=embedVar)
+				execut = get_executor(e)
+				balance = int(order['price'])/int(order['cnt_executors']) + execut['balance']
+				update("executors", "balance", balance, e)
+			channel_orders = bot.get_channel(774270476305563679)
+			pre_message = await channel_orders.fetch_message(str(order['message_order']))
+			list_roles = system.return_roles(user_id)
+			embedVar_order = discord.Embed(title="Добор в заказ:", description=f"№{order['id']} - {order['key_name']}", color=000000)
+			embedVar_order.add_field(name="Количество людей:", value=order['cnt_executors'], inline=True)
+			embedVar_order.add_field(name="Фракция:", value=order['fraction'], inline=True)
+			embedVar_order.add_field(name="Оставшиеся роли:", value=list_roles, inline=True)
+			embedVar_order.add_field(name="Комментарий:", value=order['comment'], inline=True)
+			embedVar_order.add_field(name="Цена:", value=str(order['price'])+'₽', inline=True)
+			await pre_message.edit(embed=embedVar_order)
+		else:
+			print('заказ не собран')	
 
 
 if __name__ == '__main__':

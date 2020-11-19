@@ -1,4 +1,4 @@
-TOKEN = 'NzcyMzU3NzY0MjQ0NTcwMTIy.X55gOA.-lq58XQTni4V7H--ziSnJVz4iRU'
+TOKEN = 'NzcyMzU3NzY0MjQ0NTcwMTIy.X55gOA.rlVThm3ie50_CyWsXjNPAH2nblo'
 CLIENT_ID = '772357764244570122'
 
 # Тексты для команд
@@ -11,6 +11,7 @@ commands_cab = '/history - Исторя заказов\n/choose [wallet_name] [w
 
 # Тексты для embeds
 desc_1 = "Выберите ключ:\n\n\
+    ☑️ - Любой ключ\n\
     1️⃣ - Siege of Boralus\n\
     2️⃣ - Freehold\n\
     3️⃣ - Shrine of the Storm\n\
@@ -60,7 +61,7 @@ desc_9 = 'Выбери роль, на которую ты хочешь заре�
 
 # Словари с payload для реакций
 
-keyses = {"1️⃣": "Siege of Boralus", "2️⃣": "Freehold", "3️⃣": "Shrine of the Storm", "4️⃣": "Tol Dagor", 
+keyses = {"☑️": "Любой ключ", "1️⃣": "Siege of Boralus", "2️⃣": "Freehold", "3️⃣": "Shrine of the Storm", "4️⃣": "Tol Dagor", 
 		"5️⃣": "Waycrest Manor", "6️⃣": "Atal'Dazar", "7️⃣": "The MOTHERLODE!!!", "8️⃣": "Temple of Sethrailiss", 
 		"9️⃣": "The Underrot", "🔟": "King's Rest", "#️⃣": "Junkyard", "*️⃣": "Workshop"}
 fractions = {"1️⃣" : "EU-Horde", "2️⃣": "EU-Alliance", "3️⃣": "US-Horde", "4️⃣": "US-Alliance"}

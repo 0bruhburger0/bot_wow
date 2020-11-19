@@ -1,11 +1,13 @@
 from db import get_order_id, get_order
 
 
-def return_roles(user_id: int):
+def return_roles(order_id: int):
 	try:
-		order = get_order(user_id)
+		order = get_order_id(order_id)
+		print(order)
 		list_roles = []
 		raw_roles = eval(order['roles'])
+		print(raw_roles)
 		emoji = ['1️⃣', '2️⃣', '3️⃣', '4️⃣']
 		for r, e in zip(raw_roles, emoji):
 			item = raw_roles[r]

@@ -1,7 +1,7 @@
 import sqlite3
 
 
-conn = sqlite3.connect("data_base6.db", check_same_thread=False)
+conn = sqlite3.connect("data_base9.db", check_same_thread=False)
 cursor = conn.cursor()
 
 
@@ -43,7 +43,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS orders(
                 comission INTEGER DEFAULT 0,
                 room INTEGER,
                 comment TEXT,
-                waiting room TEXT
+                waiting_room TEXT,
+                group_reg TEXT
                 )""")
 
 
@@ -132,7 +133,7 @@ def get_order(customer_id: int): # Достатет данные заказа п
         f"SELECT * FROM orders WHERE customer_id={customer_id} AND step<9")
     rows = cursor.fetchall()
     columns = ['id', 'customer_id', 'lvl_key', 'cnt_executors', 'cnt_fact_executors', 'fraction', 'key_name', 'roles', 
-    'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission', 'room', 'comment', 'waiting room']
+    'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission', 'room', 'comment', 'waiting room', 'group_reg']
     dict_row = {}
     for row in rows:
         for index, column in enumerate(columns):
@@ -140,12 +141,25 @@ def get_order(customer_id: int): # Достатет данные заказа п
     return dict_row
 
 
+# def get_order9(customer_id: int): # Достатет данные заказа по customer_id
+#     cursor.execute(
+#         f"SELECT * FROM orders WHERE customer_id={customer_id} AND step<9")
+#     rows = cursor.fetchall()
+#     columns = ['id', 'customer_id', 'lvl_key', 'cnt_executors', 'cnt_fact_executors', 'fraction', 'key_name', 'roles', 
+#     'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission', 'room', 'comment', 'waiting room', 'group_reg']
+#     dict_row = {}
+#     for row in rows:
+#         for index, column in enumerate(columns):
+#             dict_row[column] = row[index]
+#     return dict_row
+
+
 def get_order_id(order_id: int): # Достает заказ по id заказа
     cursor.execute(
         f"SELECT * FROM orders WHERE id={order_id}")
     rows = cursor.fetchall()
     columns = ['id', 'customer_id', 'lvl_key', 'cnt_executors', 'cnt_fact_executors', 'fraction', 'key_name', 'roles', 
-    'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission', 'room', 'comment', 'waiting room']
+    'cnt_roles', 'link', 'price', 'executors_id', 'step', 'message_order', 'comission', 'room', 'comment', 'waiting_room', 'group_reg']
     dict_row = {}
     for row in rows:
         for index, column in enumerate(columns):
